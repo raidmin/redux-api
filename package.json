@@ -22,8 +22,6 @@
     "browser-dev": "node_modules/.bin/webpack",
     "browser-min": "cross-env NODE_ENV=production node_modules/.bin/webpack",
     "release": "node_modules/.bin/standard-version --no-verify && git push --follow-tags origin master; npm publish",
-    "precommit": "",
-    "prepush": "npm test && npm run build"
   },
   "dependencies": {
     "fast-apply": "0.0.3",
