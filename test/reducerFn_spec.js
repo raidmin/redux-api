@@ -5,6 +5,7 @@
 import { expect } from "chai";
 import isFunction from "lodash/isFunction";
 import reducerFn from "../src/reducerFn";
+import { Map } from 'immutable';
 
 describe("reducerFn", function() {
   it("check null params", function() {
@@ -13,7 +14,7 @@ describe("reducerFn", function() {
     expect(isFunction(fn)).to.be.true;
   });
   it("check", function() {
-    const initialState = { loading: false, data: { msg: "Hello" } };
+    const initialState = Map({ loading: false, data: { msg: "Hello" } });
     const actions = {
       actionFetch: "actionFetch",
       actionSuccess: "actionSuccess",
@@ -45,7 +46,7 @@ describe("reducerFn", function() {
   });
 
   it("check injected reducer", function() {
-    const initialState = { loading: false, data: { msg: "Hello" } };
+    const initialState = Map({ loading: false, data: { msg: "Hello" } });
     const actions = {
       actionFetch: "actionFetch",
       actionSuccess: "actionSuccess",

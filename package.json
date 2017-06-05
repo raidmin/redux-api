@@ -11,7 +11,7 @@
   "description": "Flux REST API for redux infrastructure",
   "repository": "http://github.com/lexich/redux-api",
   "scripts": {
-    "test": "npm run eslint && npm run mocha && npm run yaspeller",
+    "test": "npm run mocha && npm run yaspeller",
     "yaspeller": "node_modules/.bin/yaspeller .",
     "mocha": "node_modules/.bin/mocha --compilers js:babel-core/register test/*_spec.js",
     "build": "rm -rf dist lib && npm run browser-dev && npm run browser-min && npm run compile",
@@ -22,16 +22,16 @@
     "browser-dev": "node_modules/.bin/webpack",
     "browser-min": "cross-env NODE_ENV=production node_modules/.bin/webpack",
     "release": "node_modules/.bin/standard-version --no-verify && git push --follow-tags origin master; npm publish",
-    "precommit": "npm test",
+    "precommit": "",
     "prepush": "npm test && npm run build"
   },
   "dependencies": {
     "fast-apply": "0.0.3",
+    "immutable": "^3.8.1",
     "qs": "5.2.0"
   },
   "devDependencies": {
-    "babel": "6.23.0",
-    "babel-cli": "6.23.0",
+    "babel-cli": "^6.23.0",
     "babel-core": "6.23.1",
     "babel-eslint": "7.1.1",
     "babel-loader": "6.3.2",

@@ -1599,13 +1599,27 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }return target;
+};
 
 exports.default = reducerFn;
 
 var _cache = __webpack_require__(0);
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });
+  } else {
+    obj[key] = value;
+  }return obj;
+}
 
 /**
  * Reducer contructor
@@ -1631,13 +1645,13 @@ function reducerFn(initialState) {
 
     switch (action.type) {
       case actionFetch:
-        return _extends({}, state, {
+        return state.merge({
           loading: true,
           error: null,
           syncing: !!action.syncing
         });
       case actionSuccess:
-        return _extends({}, state, {
+        return state.merge({
           loading: false,
           sync: true,
           syncing: false,
@@ -1645,7 +1659,7 @@ function reducerFn(initialState) {
           data: action.data
         });
       case actionFail:
-        return _extends({}, state, {
+        return state.merge({
           loading: false,
           error: action.error,
           syncing: false
@@ -1653,9 +1667,9 @@ function reducerFn(initialState) {
       case actionReset:
         var mutation = action.mutation;
 
-        return mutation === "sync" ? _extends({}, state, { sync: false }) : _extends({}, initialState);
+        return mutation === "sync" ? state.merge({ sync: false }) : state.merge(initialState);
       case actionAbort:
-        return _extends({}, state, { loading: false, syncing: false, error: action.error });
+        return state.merge({ loading: false, syncing: false, error: action.error });
       case actionCache:
         var id = action.id,
             data = action.data;
@@ -1671,6 +1685,7 @@ function reducerFn(initialState) {
   };
 }
 module.exports = exports["default"];
+//# sourceMappingURL=reducerFn.js.map
 
 /***/ }),
 /* 8 */
