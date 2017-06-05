@@ -1,4 +1,8 @@
+/coverage
+/dist
+/examples
 /node_modules
+/src
 /test
 /.babelrc
 /.editorconfig
