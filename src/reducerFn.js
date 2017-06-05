@@ -1,7 +1,18 @@
 "use strict";
 
 /* eslint no-case-declarations: 0 */
-import { setExpire } from "./utils/cache";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+exports.default = reducerFn;
+
+var _cache = require("./utils/cache");
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 /**
  * Reducer contructor
@@ -11,51 +22,60 @@ import { setExpire } from "./utils/cache";
  * @param  {Function} reducer      custom reducer function
  * @return {Function}              reducer function
  */
-export default function reducerFn(initialState, actions={}, reducer) {
-  const { actionFetch, actionSuccess, actionFail,
-    actionReset, actionCache, actionAbort } = actions;
-  return (state=initialState, action)=> {
+function reducerFn(initialState) {
+  var actions = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var reducer = arguments[2];
+  var actionFetch = actions.actionFetch,
+      actionSuccess = actions.actionSuccess,
+      actionFail = actions.actionFail,
+      actionReset = actions.actionReset,
+      actionCache = actions.actionCache,
+      actionAbort = actions.actionAbort;
+
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+    var action = arguments[1];
+
     switch (action.type) {
       case actionFetch:
-        return {
-          ...state,
+        return state.merge({
           loading: true,
           error: null,
           syncing: !!action.syncing
-        };
+        });
       case actionSuccess:
-        return {
-          ...state,
+        return state.merge({
           loading: false,
           sync: true,
           syncing: false,
           error: null,
           data: action.data
-        };
+        });
       case actionFail:
-        return {
-          ...state,
+        return state.merge({
           loading: false,
           error: action.error,
           syncing: false
-        };
+        });
       case actionReset:
-        const { mutation } = action;
-        return (mutation === "sync") ?
-          { ...state, sync: false } :
-          { ...initialState };
+        var mutation = action.mutation;
+
+        return mutation === "sync" ? _extends({}, state, { sync: false }) : _extends({}, initialState);
       case actionAbort:
-        return { ...state, loading: false, syncing: false, error: action.error };
+        return _extends({}, state, { loading: false, syncing: false, error: action.error });
       case actionCache:
-        const { id, data } = action;
-        const cacheExpire = state.cache[id] ? state.cache[id].expire : null;
-        const expire = setExpire(action.expire, cacheExpire);
-        return {
-          ...state,
-          cache: { ...state.cache, [id]: { expire, data } }
-        };
+        var id = action.id,
+            data = action.data;
+
+        var cacheExpire = state.cache[id] ? state.cache[id].expire : null;
+        var expire = (0, _cache.setExpire)(action.expire, cacheExpire);
+        return _extends({}, state, {
+          cache: _extends({}, state.cache, _defineProperty({}, id, { expire: expire, data: data }))
+        });
       default:
         return reducer ? reducer(state, action) : state;
     }
   };
 }
+module.exports = exports["default"];
+//# sourceMappingURL=reducerFn.js.map
