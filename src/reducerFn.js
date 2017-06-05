@@ -60,9 +60,9 @@ function reducerFn(initialState) {
       case actionReset:
         var mutation = action.mutation;
 
-        return mutation === "sync" ? _extends({}, state, { sync: false }) : _extends({}, initialState);
+        return mutation === "sync" ? state.merge({ sync: false }) : state.merge(initialState);
       case actionAbort:
-        return _extends({}, state, { loading: false, syncing: false, error: action.error });
+        return state.merge({ loading: false, syncing: false, error: action.error });
       case actionCache:
         var id = action.id,
             data = action.data;
